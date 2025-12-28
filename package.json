@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@google/genai": "^0.21.0",
     "@supabase/supabase-js": "^2.44.4",
     "@tanstack/react-query": "^5.51.1",
     "framer-motion": "^11.3.19",
@@ -26,7 +27,6 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
-    "@google/genai": "^0.1.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
     "@types/react": "^18.2.0",
