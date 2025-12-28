@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>کاوشگر کیهان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Lalezar&family=Roboto+Mono:wght@500&family=Tanha&family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+      /* --- Base Variables & Fonts --- */
+      :root {
+        --font-body: 'Vazirmatn', sans-serif;
+        --font-title: 'Lalezar', cursive;
+        --font-mono: 'Roboto Mono', monospace;
+        --font-artistic: 'Tanha', sans-serif;
+        --font-serif: 'Amiri', serif;
+        
+        /* Default transition */
+        --transition-colors: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* --- Dynamic Seasonal & Event Themes via CSS Variables --- */
+
+      /* 1. Light Themes (Seasonal) */
+      html[data-theme='light-spring'] {
+        --color-bg: #f0fdf4; /* Light Green */
+        --color-bg-gradient-start: #dcfce7;
+        --color-bg-gradient-via: #f0fdf4;
+        --color-bg-gradient-end: #ecfdf5;
+        --color-text-primary: #1f2937;
+        --color-text-secondary: #4b5563;
+        --color-accent: #db2777; /* Pink */
+        --color-accent-glow: rgba(219, 39, 119, 0.4);
+        --color-card-bg: rgba(255, 255, 255, 0.45);
+        --color-border: rgba(209, 213, 219, 0.8);
+        --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1);
+        --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+      html[data-theme='light-summer'] {
+        --color-bg: #fffbeb; /* Light Yellow */
+        --color-bg-gradient-start: #fef3c7;
+        --color-bg-gradient-via: #fffbeb;
+        --color-bg-gradient-end: #fef9c3;
+        --color-text-primary: #18181b;
+        --color-text-secondary: #52525b;
+        --color-accent: #0891b2; /* Cyan */
+        --color-accent-glow: rgba(8, 145, 178, 0.4);
+        --color-card-bg: rgba(255, 255, 255, 0.45);
+        --color-border: rgba(228, 228, 231, 0.8);
+        --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1);
+        --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+      html[data-theme='light-autumn'] {
+        --color-bg: #fefce8; /* Cream */
+        --color-bg-gradient-start: #fde68a;
+        --color-bg-gradient-via: #fefce8;
+        --color-bg-gradient-end: #fff7ed;
+        --color-text-primary: #262626;
+        --color-text-secondary: #57534e;
+        --color-accent: #ea580c; /* Orange */
+        --color-accent-glow: rgba(234, 88, 12, 0.4);
+        --color-card-bg: rgba(255, 253, 250, 0.45);
+        --color-border: rgba(214, 211, 209, 0.8);
+        --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1);
+        --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+      html[data-theme='light-winter'] {
+        --color-bg: #f8fafc; /* Cool White */
+        --color-bg-gradient-start: #e0e7ff;
+        --color-bg-gradient-via: #f8fafc;
+        --color-bg-gradient-end: #f1f5f9;
+        --color-text-primary: #1e293b;
+        --color-text-secondary: #475569;
+        --color-accent: #4338ca; /* Indigo */
+        --color-accent-glow: rgba(67, 56, 202, 0.4);
+        --color-card-bg: rgba(255, 255, 255, 0.45);
+        --color-border: rgba(203, 213, 225, 0.8);
+        --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1);
+        --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+
+      /* 2. Dark Themes (Seasonal) */
+      html[data-theme='dark-spring'] {
+        --color-bg: #0c140d;
+        --color-bg-gradient-start: #052e16; /* Dark Green */
+        --color-bg-gradient-via: #020617;
+        --color-bg-gradient-end: #1e1b4b; /* Indigo */
+        --color-text-primary: #e2e8f0;
+        --color-text-secondary: #94a3b8;
+        --color-accent: #a21caf; /* Fuchsia */
+        --color-accent-glow: rgba(162, 28, 175, 0.5);
+        --color-card-bg: rgba(5, 12, 20, 0.35);
+        --color-border: rgba(55, 65, 81, 0.5);
+        --color-hover-bg: rgba(255, 255, 255, 0.08);
+        --color-shadow: rgba(162, 28, 175, 0.1);
+        --color-shadow-hover: rgba(162, 28, 175, 0.2);
+      }
+      html[data-theme='dark-summer'] {
+        --color-bg: #1a1005;
+        --color-bg-gradient-start: #422006; /* Dark Orange */
+        --color-bg-gradient-via: #170b1e; /* Dark Purple */
+        --color-bg-gradient-end: #020617;
+        --color-text-primary: #f1f5f9;
+        --color-text-secondary: #a1a1aa;
+        --color-accent: #f59e0b; /* Amber */
+        --color-accent-glow: rgba(245, 158, 11, 0.5);
+        --color-card-bg: rgba(15, 8, 18, 0.35);
+        --color-border: rgba(63, 63, 70, 0.5);
+        --color-hover-bg: rgba(255, 255, 255, 0.08);
+        --color-shadow: rgba(245, 158, 11, 0.1);
+        --color-shadow-hover: rgba(245, 158, 11, 0.2);
+      }
+      html[data-theme='dark-autumn'] {
+        --color-bg: #1c1006;
+        --color-bg-gradient-start: #4a044e; /* Dark Fuchsia */
+        --color-bg-gradient-via: #1e1b4b; /* Dark Indigo */
+        --color-bg-gradient-end: #0f172a;
+        --color-text-primary: #e4e4e7;
+        --color-text-secondary: #a8a29e;
+        --color-accent: #d97706; /* Amber-Orange */
+        --color-accent-glow: rgba(217, 119, 6, 0.5);
+        --color-card-bg: rgba(20, 10, 15, 0.35);
+        --color-border: rgba(68, 64, 60, 0.5);
+        --color-hover-bg: rgba(255, 255, 255, 0.08);
+        --color-shadow: rgba(217, 119, 6, 0.1);
+        --color-shadow-hover: rgba(217, 119, 6, 0.2);
+      }
+      
+      /* NEW "DEEP SPACE" THEME (replaces dark-winter) */
+      html[data-theme='dark-winter'] {
+        --color-bg: #05070a;
+        --color-bg-gradient-start: #1e1b4b; /* Galactic Purple hint */
+        --color-bg-gradient-via: #05070a;
+        --color-bg-gradient-end: #0f172a; /* Slate */
+        --color-text-primary: #e2e8f0; /* Off-white */
+        --color-text-secondary: #94a3b8; /* Readable gray */
+        --color-accent: #D4AF37; /* Metallic Gold */
+        --color-accent-glow: rgba(212, 175, 55, 0.4);
+        --color-card-bg: rgba(15, 23, 42, 0.7); /* Charcoal Glass */
+        --color-border: rgba(255, 255, 255, 0.1); /* Thin semi-transparent */
+        --color-hover-bg: rgba(255, 255, 255, 0.1);
+        --color-shadow: rgba(139, 92, 246, 0.1); /* Galactic Purple shadow */
+        --color-shadow-hover: rgba(139, 92, 246, 0.2);
+      }
+      
+      /* 3. Event Themes */
+      html[data-theme='light-yalda'] {
+        --color-bg: #fff7ed; --color-bg-gradient-start: #ffedd5; --color-bg-gradient-via: #fff7ed; --color-bg-gradient-end: #fef3c7;
+        --color-text-primary: #1f2937; --color-text-secondary: #4b5563;
+        --color-accent: #c2410c; --color-accent-glow: rgba(194, 65, 12, 0.4);
+        --color-card-bg: rgba(255, 255, 255, 0.45); --color-border: rgba(209, 213, 219, 0.8); --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1); --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+      html[data-theme='dark-yalda'] {
+        --color-bg: #1c0000; --color-bg-gradient-start: #310000; --color-bg-gradient-via: #020617; --color-bg-gradient-end: #1e1b4b;
+        --color-text-primary: #fde68a; --color-text-secondary: #9ca3af;
+        --color-accent: #f97316; --color-accent-glow: rgba(249, 115, 22, 0.5);
+        --color-card-bg: rgba(28, 0, 0, 0.35); --color-border: rgba(159, 18, 57, 0.4); --color-hover-bg: rgba(255, 255, 255, 0.08);
+        --color-shadow: rgba(249, 115, 22, 0.1); --color-shadow-hover: rgba(249, 115, 22, 0.2);
+      }
+      html[data-theme='light-nowruz'] {
+        --color-bg: #f0fdf4; --color-bg-gradient-start: #dcfce7; --color-bg-gradient-via: #f0fdf4; --color-bg-gradient-end: #a7f3d0;
+        --color-text-primary: #14532d; --color-text-secondary: #166534;
+        --color-accent: #dc2626; --color-accent-glow: rgba(220, 38, 38, 0.4);
+        --color-card-bg: rgba(255, 255, 255, 0.45); --color-border: rgba(134, 239, 172, 0.8); --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1); --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+      html[data-theme='dark-nowruz'] {
+        --color-bg: #052e16; --color-bg-gradient-start: #064e3b; --color-bg-gradient-via: #020617; --color-bg-gradient-end: #065f46;
+        --color-text-primary: #d1fae5; --color-text-secondary: #a7f3d0;
+        --color-accent: #fef08a; --color-accent-glow: rgba(254, 240, 138, 0.5);
+        --color-card-bg: rgba(2, 21, 12, 0.35); --color-border: rgba(5, 150, 105, 0.4); --color-hover-bg: rgba(255, 255, 255, 0.08);
+        --color-shadow: rgba(254, 240, 138, 0.1); --color-shadow-hover: rgba(254, 240, 138, 0.2);
+      }
+      html[data-theme='light-christmas'] {
+        --color-bg: #f8fafc; --color-bg-gradient-start: #f1f5f9; --color-bg-gradient-via: #f8fafc; --color-bg-gradient-end: #e0f2fe;
+        --color-text-primary: #1e293b; --color-text-secondary: #475569;
+        --color-accent: #b91c1c; --color-accent-glow: rgba(185, 28, 28, 0.4);
+        --color-card-bg: rgba(255, 255, 255, 0.45); --color-border: rgba(209, 213, 219, 0.8); --color-hover-bg: rgba(0, 0, 0, 0.05);
+        --color-shadow: rgba(0,0,0,0.1); --color-shadow-hover: rgba(0,0,0,0.2);
+      }
+      html[data-theme='dark-christmas'] {
+        --color-bg: #042f2e; --color-bg-gradient-start: #14532d; --color-bg-gradient-via: #0f172a; --color-bg-gradient-end: #3f1212;
+        --color-text-primary: #e2e8f0; --color-text-secondary: #94a3b8;
+        --color-accent: #f59e0b; --color-accent-glow: rgba(245, 158, 11, 0.5);
+        --color-card-bg: rgba(4, 15, 15, 0.35); --color-border: rgba(185, 28, 28, 0.4); --color-hover-bg: rgba(255, 255, 255, 0.08);
+        --color-shadow: rgba(245, 158, 11, 0.1); --color-shadow-hover: rgba(245, 158, 11, 0.2);
+      }
+
+      body {
+        font-family: var(--font-body);
+        background-color: var(--color-bg);
+        background-image: radial-gradient(ellipse at 50% 0%, var(--color-bg-gradient-start), var(--color-bg-gradient-via) 60%, var(--color-bg-gradient-end));
+        color: var(--color-text-primary);
+        transition: var(--transition-colors);
+        overflow-x: hidden;
+        background-attachment: fixed;
+      }
+
+      .font-lalezar { font-family: var(--font-title); }
+      .font-tanha { font-family: var(--font-artistic); }
+      .font-roboto-mono { font-family: var(--font-mono); }
+      .font-amiri { font-family: var(--font-serif); }
+      
+      #root { position: relative; z-index: 1; }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar-thumb {
+        background-color: var(--color-accent);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--color-accent) 80%, black); }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      
+      /* Screen-reader only class */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+      @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-fade-in-down { animation: fadeInDown 0.3s ease-out forwards; }
+
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+      
+      @keyframes slideInUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      .animate-slide-in-up { animation: slideInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
+      @keyframes slideOutDown { from { transform: translateY(0); opacity: 1; } to { transform: translateY(100%); opacity: 0; } }
+      .animate-slide-out-down { animation: slideOutDown 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; }
+
+      @keyframes highlight-pulse {
+        0% { box-shadow: 0 0 0 0px rgba(99, 102, 241, 0.7), 0 10px 15px -3px var(--color-accent-glow), 0 4px 6px -4px var(--color-accent-glow); }
+        50% { box-shadow: 0 0 0 5px rgba(99, 102, 241, 0), 0 10px 15px -3px var(--color-accent-glow), 0 4px 6px -4px var(--color-accent-glow); }
+        100% { box-shadow: 0 0 0 0px rgba(99, 102, 241, 0.7), 0 10px 15px -3px var(--color-accent-glow), 0 4px 6px -4px var(--color-accent-glow); }
+      }
+      .highlight-card-pulse {
+          animation: highlight-pulse 1.5s ease-out 1;
+      }
+
+      @keyframes gradient-animation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .btn-animated-gradient {
+        background-size: 200% 200%;
+        animation: gradient-animation 4s ease infinite;
+        background-image: linear-gradient(to right, #818cf8, #a78bfa, #c084fc, #e879f9); /* indigo-400, violet-400, purple-400, fuchsia-400 */
+      }
+      
+      @keyframes rotating-glow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .glowing-button-container {
+        position: relative;
+        z-index: 1;
+      }
+      .glowing-button-container::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        background: conic-gradient(from 180deg at 50% 50%, #fde047, #f59e0b, #d97706, #fde047);
+        border-radius: 9999px; /* same as rounded-full */
+        filter: blur(8px);
+        z-index: -1;
+        animation: rotating-glow 4s linear infinite;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out, animation-duration 0.4s ease-in-out;
+      }
+      .glowing-button-container:hover::before {
+        opacity: 1;
+        filter: blur(12px);
+        animation-duration: 1.5s;
+      }
+
+      .gold-glow-button {
+        position: relative;
+        overflow: hidden;
+      }
+      .gold-glow-button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150%;
+        aspect-ratio: 1;
+        background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, #FDE047 360deg);
+        transform-origin: center;
+        transform: translate(-50%, -50%);
+        animation: rotating-glow 4s linear infinite;
+        opacity: 0.7;
+        filter: blur(15px);
+      }
+      .gold-glow-button:hover::before {
+          animation-duration: 2s;
+          opacity: 1;
+      }
+      .gold-glow-button .content {
+          position: relative;
+          z-index: 1;
+      }
+
+      @media print {
+        body.printing-active * { visibility: hidden; }
+        body.printing-active .printable-content,
+        body.printing-active .printable-content * { visibility: visible; }
+        body.printing-active .printable-content {
+          position: absolute; left: 0; top: 0; width: 100%; padding: 1.5rem;
+          margin: 0; border: none; background: white !important; color: black !important; box-shadow: none;
+        }
+        .print-actions { display: none !important; }
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@tanstack/react-query": "https://esm.sh/@tanstack/react-query@^5.90.14",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "vitest/": "https://esm.sh/vitest@^4.0.16/",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "react-i18next": "https://esm.sh/react-i18next@^16.5.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.89.0",
+    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
+    "@testing-library/jest-dom": "https://esm.sh/@testing-library/jest-dom@^6.9.1",
+    "vitest": "https://esm.sh/vitest@^4.0.16",
+    "@testing-library/react": "https://esm.sh/@testing-library/react@^16.3.1",
+    "i18next": "https://esm.sh/i18next@^25.7.3",
+    "i18next-http-backend": "https://esm.sh/i18next-http-backend@^3.0.2",
+    "i18next-browser-languagedetector": "https://esm.sh/i18next-browser-languagedetector@^8.2.0",
+    "zustand": "https://esm.sh/zustand@^5.0.9",
+    "zustand/": "https://esm.sh/zustand@^5.0.9/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="transition-colors duration-500 min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "Copy of کاوشگر کیهان (Celestial Explorer) 2025-20-12-3-12am",
+  "description": "یک وب اپلیکیشن پیشرفته در مورد نجوم، تاریخچه آن و ابزارهای محاسباتی نجومی و طالع بینی بر اساس داده های علمی و مفاهیم باستانی.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
