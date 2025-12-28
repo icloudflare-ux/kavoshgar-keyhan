@@ -1,4 +1,3 @@
-
 import React, { lazy, Suspense, useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
@@ -11,15 +10,15 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
 import CosmicHubs from './components/CosmicHubs';
-import CentralDashboard from './components/CentralDashboard'; // New Smart Dashboard
+import CentralDashboard from './components/CentralDashboard';
 
-// --- Lazy-loaded Modals & Global Components ---
+// --- Lazy-loaded Components ---
 const CosmicReceipt = lazy(() => import('./components/payment/PaymentConfirmation'));
 const ToastContainer = lazy(() => import('./components/common/ToastContainer'));
 const NotificationManager = lazy(() => import('./components/NotificationManager'));
 const MiniPlayer = lazy(() => import('./components/MiniPlayer'));
 
-// --- Hub 1: Cosmic Control Room ---
+// --- Hub 1 Components ---
 const CosmicEventsTimer = lazy(() => import('./components/CosmicEventsTimer'));
 const AdminSignalManagement = lazy(() => import('./components/AdminSignalManagement'));
 const TraderVIPSignals = lazy(() => import('./components/TraderVIPSignals'));
@@ -29,10 +28,10 @@ const MoonPhase = lazy(() => import('./components/MoonPhase'));
 const QamarDarAghrabSection = lazy(() => import('./components/QamarDarAghrabSection'));
 const CelestialEphemeris = lazy(() => import('./components/CelestialEphemeris'));
 
-// --- Hub 2: Laboratory of Secrets ---
-const CalculatorSection = lazy(() => import('./components/CalculatorSection')); // Contains many sub-components
+// --- Hub 2 Components ---
+const CalculatorSection = lazy(() => import('./components/CalculatorSection'));
 
-// --- Hub 3: Treasury of Wisdom ---
+// --- Hub 3 Components ---
 const SolarSystemOrrery = lazy(() => import('./components/SolarSystemOrrery'));
 const WhyUsSection = lazy(() => import('./components/WhyUsSection'));
 const HistorySection = lazy(() => import('./components/HistorySection'));
@@ -50,14 +49,14 @@ const ExperiencesForum = lazy(() => import('./components/ExperiencesForum'));
 const AyatAlKursi = lazy(() => import('./components/AyatAlKursi'));
 const ZodiacArticle = lazy(() => import('./components/seo/ZodiacArticle'));
 
-
 export type Hub = 'hubs' | 'control_room' | 'laboratory' | 'wisdom_treasury';
 
 const MainApp: React.FC = () => {
   const { user, isAuthenticated, isAuthModalOpen, isConfirmationVisible } = useAuth();
   const [activeHub, setActiveHub] = useState<Hub>('hubs');
 
-  const renderActiveHub = () => {
+  // تابع رندر محتوای داخلی هاب‌ها (بدون تکرار CosmicHubs)
+  const renderActiveHubContent = () => {
     switch (activeHub) {
       case 'control_room':
         return (
@@ -102,40 +101,49 @@ const MainApp: React.FC = () => {
                 </div>
             </Suspense>
         );
-      case 'hubs':
       default:
-        return <CosmicHubs onHubSelect={setActiveHub} />;
+        return null;
     }
   };
 
   return (
     <div className="relative z-10">
       <Header activeHub={activeHub} onBackToHubs={() => setActiveHub('hubs')} />
+      
       <Suspense fallback={null}>
         {activeHub === 'control_room' && <CosmicEventsTimer />}
       </Suspense>
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20">
         {activeHub === 'hubs' ? (
-          <>
+          <div className="space-y-20">
+            {/* نمایش هیرو برای کاربران مهمان و داشبورد برای اعضا */}
             {isAuthenticated ? <CentralDashboard /> : <Hero />}
-            <div className="mt-24">
-              <CosmicHubs onHubSelect={setActiveHub} />
-            </div>
-          </>
+            
+            {/* نمایش کارت‌های انتخاب هاب فقط در اینجا */}
+            <CosmicHubs onHubSelect={setActiveHub} />
+          </div>
         ) : (
-          renderActiveHub()
+          /* رندر محتوای اختصاصی هاب انتخاب شده */
+          <div className="mt-10">
+            {renderActiveHubContent()}
+          </div>
         )}
       </main>
+
       <Footer />
       
       {isAuthModalOpen && <AuthModal />}
+      
       <Suspense fallback={<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900"><Spinner/></div>}>
         {isConfirmationVisible && <CosmicReceipt />}
         <ToastContainer />
         <NotificationManager />
       </Suspense>
+      
       <SupportCenter />
       <OnboardingModal />
+      
       <Suspense fallback={null}>
         <MiniPlayer />
       </Suspense>

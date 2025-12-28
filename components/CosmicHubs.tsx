@@ -56,37 +56,55 @@ const itemVariants: Variants = {
 
 const CosmicHubs: React.FC<{ onHubSelect: (hub: Hub) => void }> = ({ onHubSelect }) => {
     return (
-        <section id="hubs">
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-            >
-                {hubs.map(hub => (
-                    <motion.div
-                        key={hub.id}
-                        variants={itemVariants}
-                        className="h-full"
+    <section id="hubs" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* هدر بخش برای نظم بیشتر */}
+        <div className="text-center mb-16">
+            <h2 className="font-lalezar text-4xl md:text-5xl text-white mb-4">مرکز هدایت کیهانی</h2>
+            <p className="font-tanha text-gray-400 text-lg">مسیر خود را انتخاب کنید</p>
+        </div>
+
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible" // تغییر برای اجرای انیمیشن هنگام اسکرول
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 rtl"
+        >
+            {hubs.map(hub => (
+                <motion.div
+                    key={hub.id}
+                    variants={itemVariants}
+                    className="h-full group" // افزودن group برای انیمیشن‌های داخلی
+                >
+                    <div
+                        onClick={() => onHubSelect(hub.id)}
+                        className={`bg-slate-900/60 backdrop-blur-2xl border-2 ${hub.borderColor} rounded-3xl p-8 flex flex-col h-full cursor-pointer transition-all duration-500 hover:scale-[1.02] hover:border-white/40 shadow-2xl ${hub.shadowColor} relative overflow-hidden`}
                     >
-                        <div
-                            onClick={() => onHubSelect(hub.id)}
-                            className={`bg-slate-900/40 backdrop-blur-xl border ${hub.borderColor} rounded-2xl p-8 flex flex-col h-full cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:border-white/50 shadow-2xl shadow-black/40 ${hub.shadowColor}`}
-                        >
-                            <div className="flex items-center gap-4 mb-4">
+                        {/* افکت نوری پس‌زمینه کارت */}
+                        <div className="absolute -top-24 -right-24 w-48 h-48 bg-white/5 blur-3xl rounded-full group-hover:bg-white/10 transition-colors" />
+
+                        <div className="flex flex-col items-start gap-6 mb-6">
+                            <div className="p-4 bg-slate-800/50 rounded-2xl border border-white/10 shadow-inner">
                                 {hub.icon}
-                                <h3 className="font-lalezar text-3xl text-white">{hub.title}</h3>
                             </div>
-                            <p className="font-tanha text-gray-300 leading-relaxed flex-grow">{hub.description}</p>
-                            <div className="mt-6 font-bold text-lg text-white group-hover:text-amber-300 transition-colors">
-                                {"ورود به بخش →"}
-                            </div>
+                            <h3 className="font-lalezar text-3xl text-white group-hover:text-[var(--color-accent)] transition-colors">
+                                {hub.title}
+                            </h3>
                         </div>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </section>
-    );
-};
+
+                        <p className="font-tanha text-gray-300 text-lg leading-loose mb-8 text-justify">
+                            {hub.description}
+                        </p>
+
+                        <div className="mt-auto flex items-center gap-2 font-bold text-xl text-indigo-300 group-hover:text-amber-300 transition-all transform group-hover:translate-x-[-8px]">
+                            <span>ورود به بخش</span>
+                            <span className="text-2xl">←</span>
+                        </div>
+                    </div>
+                </motion.div>
+            ))}
+        </motion.div>
+    </section>
+);
 
 export default CosmicHubs;
