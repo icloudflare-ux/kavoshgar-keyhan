@@ -1,7 +1,7 @@
+// استفاده از 'import type' برای جلوگیری از تداخل در زمان Build
+import type { SolarSystemPlanet } from '../types';
 
-import { SolarSystemPlanet } from '../types';
-
-export { SolarSystemPlanet };
+// خط زیر را حذف کردیم: export { SolarSystemPlanet };
 
 export const solarSystemPlanets: SolarSystemPlanet[] = [
     {
@@ -20,7 +20,7 @@ export const solarSystemPlanets: SolarSystemPlanet[] = [
         symbol: '☿',
         radius: 60,
         size: 4,
-        speed: 28.8, // Duration in seconds for one orbit
+        speed: 28.8,
         color: '#a1a1aa',
         description: 'نزدیک‌ترین سیاره به خورشید، نماد ارتباطات، ذهن، منطق و تجارت است. عطارد بر نحوه تفکر و صحبت کردن ما حاکم است.'
     },
@@ -30,7 +30,7 @@ export const solarSystemPlanets: SolarSystemPlanet[] = [
         symbol: '♀',
         radius: 90,
         size: 7,
-        speed: 73.6, // Duration in seconds for one orbit
+        speed: 73.6,
         color: '#f472b6',
         description: 'سیاره عشق، زیبایی، هنر و ارزش‌ها. زهره بر روابط عاطفی، لذت‌ها و احساسات ما نسبت به زیبایی‌شناسی تأثیر می‌گذارد.'
     },
@@ -40,7 +40,7 @@ export const solarSystemPlanets: SolarSystemPlanet[] = [
         symbol: '⊕',
         radius: 125,
         size: 7,
-        speed: 120, // Duration in seconds for one orbit
+        speed: 120,
         color: '#3b82f6',
         description: 'سیاره ما، نماد واقعیت مادی، طبیعت و تجربه انسانی. در مدل زمین‌مرکزی، مرکز کیهان است.'
     },
@@ -50,7 +50,7 @@ export const solarSystemPlanets: SolarSystemPlanet[] = [
         symbol: '♂',
         radius: 160,
         size: 5,
-        speed: 225.6, // Duration in seconds for one orbit
+        speed: 225.6,
         color: '#ef4444',
         description: 'سیاره سرخ، نماد انرژی، شجاعت، اقدام، و همچنین پرخاشگری و درگیری. مریخ نحوه ابراز خشم و پیگیری اهدافمان را نشان می‌دهد.'
     },
@@ -60,7 +60,7 @@ export const solarSystemPlanets: SolarSystemPlanet[] = [
         symbol: '♃',
         radius: 220,
         size: 14,
-        speed: 1423.2, // Duration in seconds for one orbit
+        speed: 1423.2,
         color: '#818cf8',
         description: 'بزرگترین سیاره منظومه شمسی، نماد شانس، گسترش، فلسفه و خوش‌بینی. مشتری به عنوان «سعد اکبر» شناخته می‌شود.'
     },
@@ -70,7 +70,7 @@ export const solarSystemPlanets: SolarSystemPlanet[] = [
         symbol: '♄',
         radius: 290,
         size: 12,
-        speed: 3534, // Duration in seconds for one orbit
+        speed: 3534,
         color: '#fcd34d',
         description: 'سیاره ساختار، انضباط، محدودیت‌ها و درس‌های کارمایی. زحل که به «نحس اکبر» معروف است، به ما مسئولیت‌پذیری و صبر می‌آموزد.',
         ring: {
