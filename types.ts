@@ -24,6 +24,7 @@ export enum CalculatorMode {
   Ephemeris = 'ephemeris',
   VipSignals = 'vipSignals',
   OccultMatrix = 'occultMatrix',
+  Lilith = 'lilith',
 }
 
 export interface QarinResult {

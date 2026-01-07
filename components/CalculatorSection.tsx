@@ -14,6 +14,7 @@ const ScientificCalculator = lazy(() => import('./ScientificCalculator'));
 const QarinCalculator = lazy(() => import('./QarinCalculator'));
 const QarinNadiGuide = lazy(() => import('./QarinNadiGuide'));
 const TalehCalculator = lazy(() => import('./TalehCalculator'));
+const LilithCalculator = lazy(() => import('./LilithCalculator'));
 const HoroscopeCalculator = lazy(() => import('./HoroscopeCalculator'));
 const ElectionalCalculator = lazy(() => import('./ElectionalCalculator'));
 const HoraryCalculator = lazy(() => import('./HoraryCalculator'));
@@ -66,6 +67,7 @@ const CalculatorSection: React.FC = () => {
       { id: CalculatorMode.OccultMatrix, label: 'ماتریس باطنی', icon: '💠' },
       { id: CalculatorMode.Qarin, label: 'محاسبه قرین', icon: '👻' },
       { id: CalculatorMode.TalehSaadNahs, label: 'سعد و نحس طالع', icon: '⚖️' },
+      { id: CalculatorMode.Lilith, label: 'لیلیت (ماه سیاه)', icon: '🌑' },
       { id: CalculatorMode.PersonalDignities, label: 'شرف و وبال شخصی', icon: '🪐' },
       { id: CalculatorMode.Nadi, label: 'راهنمای نادی', icon: '🧘' },
     ],
@@ -113,6 +115,8 @@ const CalculatorSection: React.FC = () => {
         case CalculatorMode.TalehSaadNahs: return <TalehCalculator activeProfile={activeProfile ?? null} />;
         // FIX: Provide a null fallback for activeProfile to match prop types.
         case CalculatorMode.Qarin: return <QarinCalculator activeProfile={activeProfile ?? null} />;
+        // FIX: Provide a null fallback for activeProfile to match prop types.
+        case CalculatorMode.Lilith: return <LilithCalculator activeProfile={activeProfile ?? null} />;
         case CalculatorMode.Nadi: return <QarinNadiGuide />;
         case CalculatorMode.Dignities: return <DignitiesCalculator />;
         
