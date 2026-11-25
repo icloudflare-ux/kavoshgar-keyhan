@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import Card from './common/Card';
 import { LibraryChapter } from '../data/cosmicLibraryData';
-import { cosmicLibraryData } from '../data/cosmicLibraryData';
+import {} from '../data/cosmicLibraryData';
 import { libraryContent } from '../data/libraryContent';
 
 interface CosmicLibraryModalProps {

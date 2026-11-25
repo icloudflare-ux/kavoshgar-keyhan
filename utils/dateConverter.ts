@@ -76,36 +76,59 @@ export const parseFlexibleDate = (dateStr: string): { day: string; month: string
     return null; // Could not determine format
 };
 
+const toEnglishDigits = (s: string): string =>
+    s.replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+     .replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+
 /**
  * Converts a Jalali date string (e.g., "1370/05/24") to a Gregorian Date object.
- * NOTE: This is a simplified implementation for demonstration. For production,
- * a robust library like `date-fns-jalali` is recommended.
- * This implementation assumes the input is a valid Jalali date.
+ * Uses the platform's built-in Persian calendar (Intl `fa-IR-u-ca-persian`)
+ * to find the exact Gregorian date, so leap years and Nowruz (Mar 20/21)
+ * are handled correctly without a hand-rolled approximation table.
  * @param jalaliDateString The date string in "YYYY/MM/DD" format.
- * @returns A Gregorian Date object.
+ * @returns A Gregorian Date object (UTC midnight), or null if invalid.
  */
 export const jalaliToGregorian = (jalaliDateString: string): Date | null => {
-    const parsed = parseFlexibleDate(jalaliDateString);
+    const parsed = parseFlexibleDate(toEnglishDigits(jalaliDateString));
     if (!parsed) return null;
 
-    let jy = parseInt(parsed.year);
-    let jm = parseInt(parsed.month);
-    let jd = parseInt(parsed.day);
-    
-    // A simplified conversion logic. For high accuracy, a dedicated library is required.
-    let gy = jy + 621;
+    if (![parsed.year, parsed.month, parsed.day].every(p => /^\d+$/.test(p))) return null;
+    const jy = Number(parsed.year);
+    const jm = parseInt(parsed.month, 10);
+    const jd = parseInt(parsed.day, 10);
 
-    const jalaliMonthStartInGregorian = [
-        [3, 21], [4, 21], [5, 22], [6, 22], [7, 23], [8, 23],
-        [9, 23], [10, 23], [11, 22], [12, 22], [1, 21], [2, 20]
-    ];
-    
-    const [gMonth, gDay] = jalaliMonthStartInGregorian[jm - 1];
-    // Create a UTC date to avoid timezone issues during calculation
-    const epoch = new Date(Date.UTC(gy, gMonth - 1, gDay));
-    epoch.setUTCDate(epoch.getUTCDate() + jd - 1);
+    // Validate numeric ranges — return null for invalid dates instead of crashing.
+    if (isNaN(jy) || isNaN(jm) || isNaN(jd)) return null;
+    if (jm < 1 || jm > 12) return null;
+    if (jd < 1 || jd > 31) return null;
 
-    return epoch;
+    try {
+        const fmt = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            timeZone: 'UTC',
+        });
+        // Jalali year jy starts around March of Gregorian year jy+621.
+        // Search forward from March 1 of that year (covers Esfand in jy+622).
+        const start = Date.UTC(jy + 621, 2, 1);
+        for (let offset = 0; offset < 400; offset += 1) {
+            const candidate = new Date(start + offset * 86400000);
+            const parts = fmt.formatToParts(candidate);
+            const get = (type: string) => {
+                const part = parts.find((p) => p.type === type);
+                return part ? parseInt(toEnglishDigits(part.value), 10) : NaN;
+            };
+            if (get('year') === jy && get('month') === jm && get('day') === jd) {
+                return candidate;
+            }
+            // Stop once we've passed the target Jalali year entirely.
+            if (get('year') > jy) break;
+        }
+        return null;
+    } catch {
+        return null;
+    }
 };
 
 /**

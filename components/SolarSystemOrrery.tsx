@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
-import { solarSystemPlanets, SolarSystemPlanet } from '../data/planetData';
+import { solarSystemPlanets } from '../data/planetData';
+import type { SolarSystemPlanet } from '../types';
 import { X } from 'lucide-react';
 
 // Helper function to create a lighter shade for the gradient highlight

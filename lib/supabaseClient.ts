@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://xvaydsqmfedzedjkywnr.supabase.co';
-const supabaseAnonKey = 'sb_publishable_5GBA0S0VhsJcSMuuTaRmUQ_smwstsQt';
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const isSupabaseConfigured = Boolean(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY);
+// A non-routable fallback lets the static UI render without credentials.
+export const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL || 'https://unconfigured.invalid',
+  import.meta.env.VITE_SUPABASE_ANON_KEY || 'unconfigured',
+);

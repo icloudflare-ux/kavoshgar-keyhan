@@ -52,8 +52,8 @@ const CosmicCheckmark = () => (
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.circle cx="75" cy="75" r="70" stroke="#38bda9" strokeWidth="1.5" fill="none"
-             initial={{ pathLength: 0 }}
-             animate={{ pathLength: 1 }}
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
              transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
         />
         <motion.path
@@ -63,8 +63,8 @@ const CosmicCheckmark = () => (
             strokeWidth="10"
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 1 }}
         />
     </motion.svg>

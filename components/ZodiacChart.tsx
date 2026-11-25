@@ -358,8 +358,8 @@ const ZodiacChart: React.FC<ZodiacChartProps> = ({ zodiacData, score }) => {
                                     stroke={aspectInfo.color}
                                     strokeWidth={Math.max(0.5, 2.5 - aspect.orb / 3)}
                                     strokeDasharray={aspectInfo.type === 'challenging' ? '4 2' : 'none'}
-                                    initial={{ pathLength: 0, opacity: 0 }}
-                                    animate={{ pathLength: 1, opacity: 1 }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
                                     style={{ filter: 'url(#glow-neutral)' }}
                                 />

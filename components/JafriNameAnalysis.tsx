@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { generateRabAlTalehAnalysis } from '../services/geminiService';
 import Card from './common/Card';
 import Spinner from './common/Spinner';

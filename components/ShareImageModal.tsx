@@ -22,7 +22,7 @@ const ShareImageModal: React.FC<ShareImageModalProps> = ({ isOpen, onClose, shar
     useEffect(() => {
         if (isOpen) {
             // Check for file sharing support
-            if (navigator.share && navigator.canShare) {
+            if (typeof navigator.share === 'function' && typeof navigator.canShare === 'function') {
                 const dummyFile = new File([""], "dummy.png", { type: "image/png" });
                 setCanShareFiles(navigator.canShare({ files: [dummyFile] }));
             }

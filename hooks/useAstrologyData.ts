@@ -6,8 +6,7 @@ import { jalaliToGregorian } from '../utils/dateConverter';
 // --- 2. موتور محاسباتی (آزمایشی) ---
 // این تابع یک تماس به یک موتور واقعی نجومی مانند Swiss Ephemeris را شبیه‌سازی می‌کند.
 // در حال حاضر، یک مجموعه داده ثابت را بدون توجه به تاریخ برمی‌گرداند.
-const calculatePlanetPositions = async (date: Date): Promise<NatalChartData> => {
-    console.log('Calculating astrological data for date:', date); // برای نمایش اینکه تاریخ در حال استفاده است
+const calculatePlanetPositions = async (_date: Date): Promise<NatalChartData> => {
     
     // شبیه‌سازی تأخیر شبکه
     await new Promise(resolve => setTimeout(resolve, 700));

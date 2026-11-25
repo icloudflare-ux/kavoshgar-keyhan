@@ -52,7 +52,7 @@ const ZodiacArticle = lazy(() => import('./components/seo/ZodiacArticle'));
 export type Hub = 'hubs' | 'control_room' | 'laboratory' | 'wisdom_treasury';
 
 const MainApp: React.FC = () => {
-  const { user, isAuthenticated, isAuthModalOpen, isConfirmationVisible } = useAuth();
+  const { isAuthenticated, isAuthModalOpen, isConfirmationVisible } = useAuth();
   const [activeHub, setActiveHub] = useState<Hub>('hubs');
 
   // تابع رندر محتوای داخلی هاب‌ها (بدون تکرار CosmicHubs)

@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const SubscriptionModal: React.FC = () => {
-    const { closeSubscriptionModal, upgradeToPremium } = useAuth(); // Assuming upgradeToPremium is for demo purposes
+    const { closeSubscriptionModal, upgradeToPremium } = useAuth();
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
@@ -46,16 +46,16 @@ const SubscriptionModal: React.FC = () => {
 
                 <div className="space-y-4">
                     <button 
-                        onClick={upgradeToPremium} // In a real app, this would redirect to a payment gateway
+                        onClick={upgradeToPremium}
                         className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg transition-colors text-lg"
                     >
-                        💳 {"پرداخت ریالی"}
+                        💳 {"پرداخت ریالی (به‌زودی)"}
                     </button>
                     <button 
-                        onClick={upgradeToPremium} // In a real app, this would open a crypto payment modal/widget
+                        onClick={upgradeToPremium}
                         className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-colors text-lg"
                     >
-                        💎 {"پرداخت با ارز دیجیتال"}
+                        💎 {"پرداخت با ارز دیجیتال (به‌زودی)"}
                     </button>
                      <p className="text-center text-sm text-gray-400">{"(تتر، ترون و ...)"}</p>
                 </div>

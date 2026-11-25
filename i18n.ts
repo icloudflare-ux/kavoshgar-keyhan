@@ -10,11 +10,12 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'fa',
+    supportedLngs: ['fa'],
     debug: false,
     defaultNS: 'common',
     ns: ['common'],
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: `${import.meta.env.BASE_URL}locales/{{lng}}/{{ns}}.json`,
     },
     interpolation: {
       escapeValue: false, // React already protects from xss

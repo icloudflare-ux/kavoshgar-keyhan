@@ -1,7 +1,7 @@
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cosmicEventsData, CosmicEvent } from '../data/cosmicEventsData';
+import { cosmicEventsData} from '../data/cosmicEventsData';
 import { generateEventImpactAnalysis } from '../services/geminiService';
 import Spinner from './common/Spinner';
 

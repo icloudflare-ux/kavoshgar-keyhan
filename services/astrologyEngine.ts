@@ -20,7 +20,7 @@ export type PlanetaryPositionsMap = {
  * @param coordinates The geographical coordinates (currently unused in this mock version, but essential for real house calculations).
  * @returns A map of planetary positions.
  */
-export async function calculatePlanetaryPositions(date: Date, coordinates: Coordinates): Promise<PlanetaryPositionsMap> {
+export async function calculatePlanetaryPositions(date: Date, _coordinates: Coordinates): Promise<PlanetaryPositionsMap> {
     // Simulate async operation
     await new Promise(resolve => setTimeout(resolve, 200));
 
