@@ -6,10 +6,11 @@
   "homepage": "https://icloudflare-ux.github.io/kavoshgar-keyhan/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run typecheck && vite build",
     "test": "vitest",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "VITE_BASE=/kavoshgar-keyhan/ npm run build",
+    "deploy": "gh-pages -d dist",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json"
   },
   "dependencies": {
     "@google/genai": "latest",

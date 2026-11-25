@@ -1,5 +1,5 @@
 
-import React, { createContext, useState, useCallback, ReactNode, useEffect, useMemo } from 'react';
+import React, { createContext, useState, useCallback, ReactNode, useMemo } from 'react';
 
 interface CosmicLibraryContextType {
     unlockedChapters: Set<string>;

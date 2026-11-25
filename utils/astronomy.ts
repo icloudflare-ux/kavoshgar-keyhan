@@ -97,7 +97,6 @@ export const calculateSunriseSunset = (date: Date, latitude: number, longitude: 
 export const calculateLST = (date: Date, longitude: number): number => {
     const JD = (date.getTime() / 86400000) + 2440587.5; // Julian Date
     const d = JD - 2451545.0; // Days since J2000.0
-    const UT = date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600;
 
     // Greenwich Mean Sidereal Time (GMST)
     const GMST = 18.697374558 + 24.06570982441908 * d;

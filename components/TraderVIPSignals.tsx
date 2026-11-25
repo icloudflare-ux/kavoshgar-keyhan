@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCurrentPlanetaryHour } from '../hooks/useCurrentPlanetaryHour';
 import { qamarDarAghrabData } from '../data/qamarDarAghrabData';
@@ -143,7 +143,7 @@ const TraderVIPSignals: React.FC = () => {
         return <BlurPreview isLocked={true}><StaticTraderView/></BlurPreview>;
     }
 
-    if (!currentHour) {
+    if (!currentHour?.planet) {
         return <Card><div className="flex items-center justify-center h-64"><Spinner/><p className="mr-4">در حال دریافت موقعیت برای محاسبه ساعات...</p></div></Card>;
     }
     

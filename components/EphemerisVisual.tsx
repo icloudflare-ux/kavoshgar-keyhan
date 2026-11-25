@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { motion, useMotionValue, useTransform, Transition } from 'framer-motion';
+import { motion, useMotionValue, useTransform} from 'framer-motion';
 import { EphemerisData, PlanetName } from '../types';
 
 const PLANET_SYMBOLS: { [key in PlanetName]?: string } = {

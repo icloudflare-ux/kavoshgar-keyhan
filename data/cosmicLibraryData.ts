@@ -27,7 +27,6 @@ export interface LibraryChapter {
     unlockHintKey?: string;
     bgStyle: string; // For gradient backgrounds
     isNew?: boolean;
-    audioSrc?: string;
 }
 
 export const cosmicLibraryData: LibraryChapter[] = [
@@ -41,7 +40,6 @@ export const cosmicLibraryData: LibraryChapter[] = [
         unlockHintKey: 'library_financial_astrology_hint',
         bgStyle: 'from-green-800 to-gray-900',
         isNew: true,
-        audioSrc: '/audio/financial_astrology.mp3',
     },
     {
         id: 'mundane_astrology',
@@ -52,7 +50,6 @@ export const cosmicLibraryData: LibraryChapter[] = [
         unlockHintKey: 'library_mundane_astrology_hint',
         bgStyle: 'from-sky-800 to-indigo-900',
         isNew: true,
-        audioSrc: '/audio/mundane_astrology.mp3',
     },
     // Self-Discovery
     {
@@ -73,7 +70,6 @@ export const cosmicLibraryData: LibraryChapter[] = [
         unlockHintKey: 'library_esoteric_planets_hint',
         bgStyle: 'from-purple-800 to-violet-900',
         isNew: true,
-        audioSrc: '/audio/esoteric_planets.mp3',
     },
     // Energy & Metaphysics
     {
@@ -94,7 +90,6 @@ export const cosmicLibraryData: LibraryChapter[] = [
         unlockHintKey: 'library_medical_astrology_hint',
         bgStyle: 'from-pink-800 to-rose-900',
         isNew: true,
-        audioSrc: '/audio/medical_astrology.mp3',
     },
     // History & Education
     {
@@ -149,7 +144,6 @@ export const cosmicLibraryData: LibraryChapter[] = [
         unlockHintKey: 'library_agricultural_astrology_hint',
         bgStyle: 'from-amber-800 to-stone-900',
         isNew: true,
-        audioSrc: '/audio/agricultural_astrology.mp3',
     },
     {
         id: 'copernican_revolution',

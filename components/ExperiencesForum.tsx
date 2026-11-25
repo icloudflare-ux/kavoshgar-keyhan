@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import Card from './common/Card';
 import Spinner from './common/Spinner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion} from 'framer-motion';
 import { Heart, MessageSquare } from 'lucide-react';
 
 interface Post {

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, lazy, Suspense } from 'react';
-import { CalculatorMode, ZodiacSignName } from '../types';
+import { CalculatorMode} from '../types';
 import ProfileManager, { useProfiles } from './common/ProfileManager';
 import PersonalDashboard from './PersonalDashboard';
 import Spinner from './common/Spinner';

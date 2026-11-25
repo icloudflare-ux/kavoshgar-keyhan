@@ -1,14 +1,10 @@
-import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
-import { Profile, BirthChartData, FamousPerson, NatalChartData, Aspect, PlanetPosition, Transit, EphemerisData, EsotericRulers, CleansingRitual, TradingDayAnalysis } from "../types";
+import type { GenerateContentResponse } from "@google/genai";
+import { supabase } from '../lib/supabaseClient';
+// JSON schema values; the SDK and API key remain server-side.
+const Type = { OBJECT: 'OBJECT', STRING: 'STRING', ARRAY: 'ARRAY', NUMBER: 'NUMBER', INTEGER: 'INTEGER' } as const;
+import { Profile, NatalChartData, Aspect, PlanetPosition, Transit, EphemerisData, EsotericRulers, CleansingRitual, TradingDayAnalysis } from "../types";
 
 const model = 'gemini-3-flash-preview';
-const GEMINI_API_KEY = 'AIzaSyCt918m61hEJ7XsK3DBi4dcu3iARBdplMk';
-
-// Singleton AI instance
-let ai: GoogleGenAI | null = null;
-
-const CONFIGURATION_ERROR_MESSAGE = "خطای پیکربندی: کلید API در محیط برنامه تنظیم نشده است. لطفاً با مدیر سیستم تماس بگیرید.";
-
 // A collection of pre-defined, uplifting messages to use when the API fails or is rate-limited.
 const fallbackAdvices = [
     "امروز فرصتی است برای درخشش شما. از آن نهایت استفاده را ببرید.",
@@ -18,30 +14,22 @@ const fallbackAdvices = [
     "یک عمل نیک کوچک، می‌تواند بازتابی بزرگ در کائنات داشته باشد."
 ];
 
-const getAi = (): GoogleGenAI | null => {
-    if (ai) return ai;
-    const apiKey = GEMINI_API_KEY;
-    if (!apiKey) {
-        console.error("Gemini API Key is not set.");
-        return null;
-    }
-    ai = new GoogleGenAI({ apiKey });
-    return ai;
-};
-
 // PRIVATE HELPER for retry logic with exponential backoff
 const _generateContentWithRetry = async (
     params: { model: string; contents: any; config?: any },
     retries = 3,
     delay = 2000 // Start with a 2-second delay
 ): Promise<GenerateContentResponse> => {
-    const aiInstance = getAi();
-    if (!aiInstance) {
-        throw new Error(CONFIGURATION_ERROR_MESSAGE);
-    }
     try {
-        const response = await aiInstance.models.generateContent(params);
-        return response;
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) throw new Error('برای استفاده از هوش مصنوعی وارد حساب شوید.');
+        const result = await fetch('/api/gemini', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+            body: JSON.stringify(params),
+        });
+        if (!result.ok) throw new Error(`AI request failed (${result.status})`);
+        return await result.json() as GenerateContentResponse;
     } catch (error: any) {
         // Check for specific retryable error codes from Google API or general network issues
         const isRetryable = error.message.includes('429') || error.message.includes('503') || error.message.includes('500');

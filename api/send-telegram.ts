@@ -1,3 +1,4 @@
+import { requireUser } from "../server/auth";
 // --- Moon Phase Calculation Logic (needed for signal strength) ---
 const LUNAR_CYCLE_DAYS = 29.53;
 const NEW_MOON_REFERENCE_UTC = new Date('2024-01-11T11:57:00Z').getTime();
@@ -15,8 +16,14 @@ export default async function handler(request: any, response: any) {
     return response.status(405).json({ message: 'فقط متد POST مجاز است' });
   }
 
+  const user = await requireUser(request, response);
+  if (!user) return;
+  if (user.app_metadata?.role !== 'admin') {
+    return response.status(403).json({ error: 'Administrator access required.' });
+  }
+
   // Read secrets from server environment variables for security
-  const BOT_TOKEN = '8276185801:AAElafDfOPjgWEtbyfJvrq6dpNUznnuUN2E';
+  const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
   if (!BOT_TOKEN || !CHAT_ID) {
@@ -25,13 +32,13 @@ export default async function handler(request: any, response: any) {
   }
 
   try {
-    const { signal, isNahs, currentPlanet } = request.body;
+    const { signal, isNahs, currentPlanet } = request.body || {};
 
-    if (!signal || !signal.symbol || !signal.type || !signal.price) {
-        throw new Error('Invalid signal data received.');
+    if (!signal || typeof signal.symbol !== 'string' || signal.symbol.length > 30 || !['BUY', 'SELL'].includes(signal.type) || !Number.isFinite(Number(signal.price)) || Number(signal.price) <= 0) {
+        return response.status(400).json({ error: 'Invalid signal data received.' });
     }
 
-    const planetaryRuler = currentPlanet ? currentPlanet.persian : 'نامشخص';
+    const planetaryRuler = typeof currentPlanet?.persian === 'string' ? currentPlanet.persian.slice(0, 40) : 'نامشخص';
     let power = 50;
     let powerLabel = 'Medium';
 
@@ -79,7 +86,7 @@ export default async function handler(request: any, response: any) {
 🛰 *ارسال شده توسط سیستم هوشمند کاوشگر کیهان*
 ⚠️ *مدیریت سرمایه فراموش نشود.*
 🆔 ${channelId}
-    `.trim();
+    `.trim().replace(/\*/g, '');
 
     const apiResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -87,16 +94,15 @@ export default async function handler(request: any, response: any) {
       body: JSON.stringify({
         chat_id: CHAT_ID,
         text: message,
-        parse_mode: 'Markdown',
       }),
     });
 
     const result = await apiResponse.json();
     if (apiResponse.ok) {
-      response.status(200).json({ success: true, data: result });
+      response.status(200).json({ success: true });
     } else {
       console.error('Telegram API Error:', result);
-      response.status(apiResponse.status).json({ success: false, error: 'Failed to send Telegram message.', details: result });
+      response.status(apiResponse.status).json({ success: false, error: 'Failed to send Telegram message.' });
     }
   } catch (error: any) {
     console.error('Error in send-telegram API:', error.message);

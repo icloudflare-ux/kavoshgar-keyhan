@@ -9,7 +9,7 @@ import ThemeSwitcherIcon from './common/ThemeSwitcherIcon';
 import { useSettings } from '../contexts/SettingsContext';
 import ToggleSwitch from './common/ToggleSwitch';
 import UserStats from './UserStats';
-import { Hub } from '../../App';
+import { Hub } from '../App';
 import { ArrowRight } from 'lucide-react';
 import FeatureChecklist from './FeatureChecklist';
 
@@ -38,7 +38,7 @@ const itemVariants: Variants = {
 };
 
 const ThemeSelector: React.FC = () => {
-    const { baseTheme, activeTheme, themeMode, toggleBaseTheme, setThemeMode, season, event } = useTheme();
+    const { baseTheme, themeMode, toggleBaseTheme, setThemeMode, season, event } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
 
     const eventNames: Record<string, string> = { nowruz: 'نوروز', yalda: 'یلدا', christmas: 'کریسمس' };

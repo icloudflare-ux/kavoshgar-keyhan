@@ -95,7 +95,7 @@ const CentralDashboard: React.FC = () => {
         return zodiacRulers.find(z => z.id === rabTale)?.ruler || null;
     }, [activeProfile, zodiacRulers]);
     
-    const isPersonalAuspiciousHour = currentHour && rulingPlanet && currentHour.planet.persian === rulingPlanet;
+    const isPersonalAuspiciousHour = currentHour && rulingPlanet && currentHour.planet?.persian === rulingPlanet;
 
     const moonPhase = useMemo(() => getMoonPhase(new Date()), []);
 
@@ -134,7 +134,7 @@ const CentralDashboard: React.FC = () => {
                                     ساعت سعد شخصی شما
                                 </p>
                             )}
-                            <p>ساعت <strong className="font-lalezar text-2xl text-white">{currentHour.planet.persian}</strong></p>
+                            <p>ساعت <strong className="font-lalezar text-2xl text-white">{currentHour.planet?.persian}</strong></p>
                             <p className={`font-bold ${isNahs ? 'text-red-400' : 'text-green-400'}`}>
                                 ({isNahs ? 'نحس' : 'سعد'})
                             </p>

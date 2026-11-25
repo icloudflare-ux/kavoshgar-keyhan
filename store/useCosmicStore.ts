@@ -1,3 +1,4 @@
+import { supabase } from '../lib/supabaseClient';
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -29,9 +30,11 @@ export interface CosmicState {
 // This function now sends the signal to our own secure backend endpoint
 async function broadcastSignal(signal: TradingSignal, isNahs: boolean, currentPlanet: PlanetInfo | null) {
   try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
     const response = await fetch('/api/send-telegram', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
       body: JSON.stringify({
         signal,
         isNahs,

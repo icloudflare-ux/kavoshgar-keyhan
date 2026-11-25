@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from 'react';
 import { User, SubscriptionTier } from '../types';
-import { supabase } from '../lib/supabaseClient';
+import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 
 interface AuthContextType {
@@ -28,10 +28,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const mapSessionToAppUser = (session: Session): User => {
     const supabaseUser = session.user;
-    // Mimic the previous special user logic for premium access
-    const isSpecialUser = supabaseUser.email?.toLowerCase().includes('morteza');
-    const subscriptionTier: SubscriptionTier = isSpecialUser ? 'premium' : 'free';
-    
+    const subscriptionTier: SubscriptionTier = supabaseUser.app_metadata?.subscription === 'premium' ? 'premium' : 'free';
+
     return {
         id: supabaseUser.id,
         email: supabaseUser.email || '',
@@ -51,6 +49,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const prevIsAuthenticated = useRef(isAuthenticated);
 
   useEffect(() => {
+      if (!isSupabaseConfigured) {
+          setSessionLoading(false);
+          return;
+      }
       const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
           const appUser = session ? mapSessionToAppUser(session) : null;
           setUser(appUser);
@@ -89,14 +91,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     prevIsAuthenticated.current = isAuthenticated;
   }, [isAuthenticated]);
 
-  const isPremium = true; // Temporary unlock as requested by user
+  const isPremium = user?.subscription === 'premium';
   
   const signInWithPassword = async (email: string, password: string) => {
+    if (!isSupabaseConfigured) throw new Error('سرویس ورود هنوز پیکربندی نشده است.');
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
   };
 
   const signUp = async (email: string, password: string) => {
+    if (!isSupabaseConfigured) throw new Error('سرویس ورود هنوز پیکربندی نشده است.');
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
   };
@@ -107,6 +111,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
   
   const resetPassword = async (email: string) => {
+    if (!isSupabaseConfigured) throw new Error('سرویس ورود هنوز پیکربندی نشده است.');
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: window.location.origin, // Redirect to the app's base URL
     });
@@ -117,20 +122,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const closeAuthModal = () => setAuthModalOpen(false);
   
   const openSubscriptionModal = () => {
-    if (user?.username.toLowerCase() === 'morteza') {
-        return;
-    }
     setSubscriptionModalOpen(true);
   }
   const closeSubscriptionModal = () => setSubscriptionModalOpen(false);
   
   const upgradeToPremium = () => {
-    if (user) {
-        const upgradedUser = { ...user, subscription: 'premium' as SubscriptionTier };
-        setUser(upgradedUser);
-        closeSubscriptionModal();
-        setConfirmationVisible(true);
-    }
+    // Never grant paid access from browser state or unverified payment clicks.
+    window.alert('پرداخت آنلاین هنوز پیکربندی نشده است. برای فعال‌سازی اشتراک با پشتیبانی تماس بگیرید.');
   };
   
   const closeConfirmation = () => setConfirmationVisible(false);

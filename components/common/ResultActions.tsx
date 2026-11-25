@@ -26,7 +26,7 @@ const ResultActions: React.FC<ResultActionsProps> = ({ textToCopy, shareData }) 
 
   useEffect(() => {
     try {
-        if (navigator.share) {
+        if (typeof navigator.share === 'function') {
             setCanShare(true);
         }
     } catch (e) {
@@ -59,7 +59,7 @@ const ResultActions: React.FC<ResultActionsProps> = ({ textToCopy, shareData }) 
 
   const handleShare = async () => {
     const cleanText = textToCopy.replace(/@@EPIC@@|@@FINAL@@|\*\*/g, '');
-    if (navigator.share) {
+    if (typeof navigator.share === 'function') {
       try {
         await navigator.share({
           title: 'تحلیل از کاوشگر کیهان',

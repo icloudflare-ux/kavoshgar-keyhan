@@ -7,7 +7,7 @@ import { qamarDarAghrabData } from '../data/qamarDarAghrabData';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Briefcase, TrendingUp, Star, Eye, X, BrainCircuit, Anchor, Hourglass, CircleDollarSign, Trash2, Bed, Leaf, Zap, PenSquare, HandHeart, Wind, Droplets } from 'lucide-react';
+import { Briefcase, TrendingUp, Star, Eye, X} from 'lucide-react';
 
 // Calculation constants
 const LUNAR_CYCLE_DAYS = 29.530588853;

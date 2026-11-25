@@ -1,26 +1,29 @@
-// FIX: To resolve vitest type errors, defineConfig is now imported from 'vitest/config'
-// which extends Vite's config with the 'test' property types.
-import { defineConfig } from 'vitest/config'
-import react from '@vitejs/plugin-react'
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+import type {} from 'vitest/config';
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'VITE_');
   return {
-    // FIX: Updated base path from placeholder to root path '/'.
-    base: '/', 
-    plugins: [
-      react(),
-    ],
-    server: {
-      fs: {
-        // Allow serving files from one level up to the project root
-        allow: ['..']
-      }
+    base: env.VITE_BASE || '/',
+    plugins: [react()],
+    server: { host: '0.0.0.0' },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (!id.includes('node_modules')) return;
+            if (id.includes('html2canvas')) return 'capture';
+            if (id.includes('framer-motion')) return 'motion';
+            if (id.includes('@supabase')) return 'supabase';
+          },
+        },
+      },
     },
     test: {
       globals: true,
       environment: 'jsdom',
       setupFiles: './tests/setupTests.ts',
-    }
-  }
-})
+    },
+  };
+});

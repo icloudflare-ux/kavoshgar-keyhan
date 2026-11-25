@@ -1,5 +1,5 @@
 
-import React, { useContext, useState, useMemo, useEffect } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import {
   cosmicLibraryData,
   libraryCategories,
@@ -103,7 +103,7 @@ const ChapterCard: React.FC<{ chapter: LibraryChapter; isUnlocked: boolean; onRe
                 </div>
 
                 {/* Play Button Overlay */}
-                {isUnlocked && chapter.audioSrc && (
+                {isUnlocked && typeof window !== 'undefined' && 'speechSynthesis' in window && (
                     <div 
                         className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         onClick={(e) => { e.stopPropagation(); playChapter(chapter); }}
@@ -145,9 +145,6 @@ const CosmicLibrarySection: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeCategory, setActiveCategory] = useState<LibraryCategoryId>(libraryCategories[0].id);
 
-    useEffect(() => {
-        console.log('CosmicLibrarySection has been loaded and rendered.');
-    }, []);
 
     const filteredChapters = useMemo(() => {
         return cosmicLibraryData

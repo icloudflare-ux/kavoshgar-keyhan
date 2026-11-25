@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateAbjad, calculateAbjadSaghir } from '../utils/abjad';
 import { useZodiacRulers } from '../data/rabAlTalehData';
@@ -41,7 +41,7 @@ const MatrixCard: React.FC<{ title: string; icon: React.ReactNode; children?: Re
 const PlanetaryHourCard: React.FC = () => {
     const currentHour = useCurrentPlanetaryHour();
 
-    if (!currentHour) {
+    if (!currentHour?.planet) {
         return <MatrixCard title="سعد و نحس لحظه‌ای" icon={<Zap size={20} />} delay={0.8} isLoading />;
     }
 
